@@ -1,22 +1,46 @@
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
-
-.products {
+/* Styl dla nawigacji */
+.navbar {
+  background-color: #007bff; /* Niebieskie tło */
+  padding: 10px 20px;
   display: flex;
-  flex-wrap: wrap;
-}
-
-.product {
-  width: 200px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
+  justify-content: center; /* Wyrównanie na środku */
+  gap: 20px; /* Odstęp między linkami */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lekki cień */
   border-radius: 5px;
+  font-family: Arial, sans-serif; /* Czcionka */
 }
 
-  .product img {
-    max-width: 100%;
+  /* Styl dla linków */
+  .navbar a {
+    color: white; /* Biały tekst */
+    text-decoration: none; /* Usunięcie podkreślenia */
+    font-size: 18px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s; /* Animacja */
   }
+
+    /* Efekt hover */
+    .navbar a:hover {
+      background-color: #0056b3; /* Ciemniejszy niebieski */
+      transform: scale(1.1); /* Powiększenie */
+    }
+
+    /* Aktywny link */
+    .navbar a.active {
+      font-weight: bold; /* Tylko pogrubienie bez zmiany koloru */
+      text-decoration: none; /* Opcjonalne podkreślenie */
+    }
+
+/* Responsywność - dla mniejszych ekranów */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column; /* Linki w kolumnie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+  }
+
+    .navbar a {
+      width: 100%; /* Linki na pełną szerokość */
+      text-align: center;
+    }
+}
