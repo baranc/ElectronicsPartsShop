@@ -7,6 +7,7 @@ const baseFolder =
   process.env.APPDATA !== undefined && process.env.APPDATA !== ''
     ? `${process.env.APPDATA}/ASP.NET/https`
     : `${process.env.HOME}/.aspnet/https`;
+fs.mkdirSync(baseFolder, { recursive: true });
 
 const certificateArg = process.argv.map(arg => arg.match(/--name=(?<value>.+)/i)).filter(Boolean)[0];
 const certificateName = certificateArg ? certificateArg.groups.value : process.env.npm_package_name;
@@ -31,3 +32,4 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
   ], { stdio: 'inherit', })
   .on('exit', (code) => process.exit(code));
 }
+

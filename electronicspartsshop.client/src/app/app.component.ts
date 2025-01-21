@@ -1,38 +1,28 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { ProductService, Product } from './product.service';
+import { CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.css'
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pl-PL' }
+  ],
+  styleUrls: ['./app.component.css'],
+  imports: [CurrencyPipe, CommonModule, RouterModule]
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  products: Product[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private productService: ProductService) { }
 
-  ngOnInit() {
-    this.getForecasts();
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe(data => {
+      this.products = data;
+      console.log(this.products);
+    });
   }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  title = 'electronicspartsshop.client';
 }

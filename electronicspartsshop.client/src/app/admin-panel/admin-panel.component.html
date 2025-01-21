@@ -1,0 +1,36 @@
+<div class="admin-panel">
+  <h1>Panel administratora</h1>
+  <h2>Dodaj produkt</h2>
+  <form (ngSubmit)="addProduct()" #productForm="ngForm">
+    <label>
+      Nazwa:
+      <input [(ngModel)]="newProduct.name" name="name" placeholder="Name" required />
+    </label>
+    <label>
+      Opis:
+      <input [(ngModel)]="newProduct.description" name="description" placeholder="Description" required />
+    </label>
+    <label>
+      Cena:
+      <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required />
+    </label>
+    <label>
+      Ścieżka zdjęcia:
+      <input [(ngModel)]="newProduct.imagePath" name="imagePath" placeholder="Image Path" required />
+    </label>
+    <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+  </form>
+
+
+  <h2>Products</h2>
+  <div *ngFor="let product of products" class="product-item">
+    <p>{{ product.name }} - {{ product.price | currency:'PLN' }}</p>
+    <input [(ngModel)]="product.name" placeholder="Nazwa" />
+    <input [(ngModel)]="product.description" placeholder="Opis" />
+    <input type="number" [(ngModel)]="product.price" placeholder="Cena" />
+    <input [(ngModel)]="product.imagePath" placeholder="Ścieżka zdjęcia" />
+    <button (click)="updateProduct(product)">Edytuj</button>
+    <button (click)="deleteProduct(product.id)">Usuń</button>
+    <router-outlet></router-outlet>
+  </div>
+</div>

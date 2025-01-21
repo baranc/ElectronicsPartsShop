@@ -1,0 +1,27 @@
+<h1>Sklep z częściami elektronicznymi</h1>
+
+<div class="products">
+  <div *ngFor="let product of products" class="product">
+    <img [src]="product.imagePath" alt="{{ product.name }}" />
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p>Cena: {{ product.price | currency:'PLN':'symbol':'1.2-2' }}</p>
+    <button (click)="addToCart(product)">Dodaj do koszyka</button>
+  </div>
+</div>
+
+<hr />
+
+<h2>Koszyk zakupowy</h2>
+
+<div class="cart" *ngIf="cart.length > 0; else emptyCart">
+  <div *ngFor="let item of cart; index as i" class="cart-item">
+    <p>{{ item.name }} - {{ item.price | currency:'PLN':'symbol':'1.2-2' }}</p>
+    <button (click)="removeFromCart(i)">Usuń</button>
+  </div>
+  <p><strong>W sumie: {{ getTotalPrice() | currency:'PLN':'symbol':'1.2-2' }}</strong></p>
+</div>
+
+<ng-template #emptyCart>
+  <p>Twój koszyk jest pusty.</p>
+</ng-template>

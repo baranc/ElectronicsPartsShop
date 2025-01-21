@@ -1,14 +1,22 @@
-﻿:host {
-    max-width: 1280px;
-    padding: 2rem;
-    text-align: center;
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+.products {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-table {
-    margin: 0 auto;
+.product {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
+
+  .product img {
+    max-width: 100%;
+  }
