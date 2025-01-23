@@ -10,4 +10,8 @@
   <ItemGroup>
     <None Remove="src\app\app.module.ts" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\NewFolder1\" />
+    <Folder Include="src\app\NewFolder\" />
+  </ItemGroup>
 </Project>

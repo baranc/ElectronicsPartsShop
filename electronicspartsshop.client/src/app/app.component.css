@@ -1,46 +1,46 @@
-/* Styl dla nawigacji */
+
 .navbar {
-  background-color: #007bff; /* Niebieskie tło */
+  background-color: #007bff; 
   padding: 10px 20px;
   display: flex;
-  justify-content: center; /* Wyrównanie na środku */
-  gap: 20px; /* Odstęp między linkami */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lekki cień */
+  justify-content: center; 
+  gap: 20px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   border-radius: 5px;
-  font-family: Arial, sans-serif; /* Czcionka */
+  font-family: Arial, sans-serif; 
 }
 
-  /* Styl dla linków */
+  
   .navbar a {
-    color: white; /* Biały tekst */
-    text-decoration: none; /* Usunięcie podkreślenia */
+    color: white; 
+    text-decoration: none; 
     font-size: 18px;
     padding: 8px 15px;
     border-radius: 4px;
-    transition: background-color 0.3s, transform 0.2s; /* Animacja */
+    transition: background-color 0.3s, transform 0.2s; 
   }
 
-    /* Efekt hover */
+    
     .navbar a:hover {
-      background-color: #0056b3; /* Ciemniejszy niebieski */
-      transform: scale(1.1); /* Powiększenie */
+      background-color: #0056b3; 
+      transform: scale(1.1); 
     }
 
-    /* Aktywny link */
+    
     .navbar a.active {
-      font-weight: bold; /* Tylko pogrubienie bez zmiany koloru */
-      text-decoration: none; /* Opcjonalne podkreślenie */
+      font-weight: bold; 
+      text-decoration: none; 
     }
 
-/* Responsywność - dla mniejszych ekranów */
+
 @media (max-width: 600px) {
   .navbar {
-    flex-direction: column; /* Linki w kolumnie */
-    align-items: center; /* Wyśrodkowanie w pionie */
+    flex-direction: column; 
+    align-items: center; 
   }
 
     .navbar a {
-      width: 100%; /* Linki na pełną szerokość */
+      width: 100%; 
       text-align: center;
     }
 }

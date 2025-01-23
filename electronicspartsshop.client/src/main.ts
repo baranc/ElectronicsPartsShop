@@ -7,19 +7,12 @@ import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { AdminPanelComponent } from './app/admin-panel/admin-panel.component';
 import { ShopComponent } from './app/shop/shop.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { appConfig } from './app/app.config';
 
 
 registerLocaleData(localePl, 'pl');
 
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(),
-    provideRouter([
-      { path: '', component: ShopComponent },
-      { path: 'admin', component: AdminPanelComponent },
-    ]),
-    { provide: LOCALE_ID, useValue: 'pl-PL' }
-  ],
-}).catch((err) => console.error(err));;
+bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));;
 

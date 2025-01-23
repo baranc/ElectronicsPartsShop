@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
-import { ShopComponent } from './shop/ShopComponent';
+import { ShopComponent } from './shop/shop.component';
 
-const routes: Routes = [
-  { path: '', component: ShopComponent },
+export const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: ShopComponent },
   { path: 'admin', component: AdminPanelComponent }];
 
 @NgModule({

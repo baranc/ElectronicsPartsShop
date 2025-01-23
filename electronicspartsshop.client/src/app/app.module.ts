@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ShopComponent } from './shop/ShopComponent';
+import { ShopComponent } from './shop/shop.component';
+import { HeaderComponent } from './header/header.component';
+import { ProductItemComponent } from './product-item/product-item.component';
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import { ShopComponent } from './shop/ShopComponent';
   providers: [],
   bootstrap: [AppComponent],
   declarations: [
-    ShopComponent
+    ShopComponent,
+    HeaderComponent,
+    ProductItemComponent
   ]
 })
 export class AppModule { }
