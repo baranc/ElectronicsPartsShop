@@ -2,18 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../product.service';
+import { ProductItemComponent } from '../product-item/product-item.component';
+import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css'],
-  imports: [CurrencyPipe, CommonModule]
+  imports: [CurrencyPipe, CommonModule, ProductItemComponent, RouterLink]
 })
 export class ShopComponent implements OnInit {
   products: Product[] = [];
   cart: Product[] = []; // Koszyk zakupowy
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(data => {
@@ -31,5 +34,10 @@ export class ShopComponent implements OnInit {
 
   getTotalPrice(): number {
     return this.cart.reduce((total, product) => total + product.price, 0);
+  }
+  goToPayment(): void {
+    const totalAmount = this.getTotalPrice();
+    localStorage.setItem('totalAmount', totalAmount.toString());
+    this.router.navigate(['cashRegister']);
   }
 }

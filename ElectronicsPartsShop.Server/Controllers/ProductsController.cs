@@ -1,5 +1,6 @@
 ﻿using ElectronicsPartsShop.Server.Data;
 using ElectronicsPartsShop.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectronicsPartsShop.Server
@@ -22,6 +23,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpPost]
+        //[Authorize(Roles = "Admin")]
         public IActionResult AddProduct([FromBody] Product product)
         {
             _context.Products.Add(product);
@@ -30,6 +32,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult UpdateProduct(int id, [FromBody] Product updatedProduct)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
@@ -45,6 +48,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);

@@ -1,5 +1,11 @@
 <h1 class="text-4xl font-bold">Sklep z częściami elektronicznymi</h1>
 
+<div class="grid grid-cols-5 gap-4">
+  @for (product of products; track product.id) {
+  <app-product-item [product]="product"></app-product-item>
+  }
+</div>
+
 <div class="products">
   <div *ngFor="let product of products" class="product">
     <img [src]="product.imagePath" alt="{{ product.name }}" />
@@ -25,3 +31,6 @@
 <ng-template #emptyCart>
   <p>Twój koszyk jest pusty.</p>
 </ng-template>
+<div>
+  <button (click)="goToPayment()">Do kasy</button>
+</div>

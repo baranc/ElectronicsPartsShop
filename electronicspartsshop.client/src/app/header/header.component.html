@@ -5,11 +5,11 @@
       <a routerLink="/admin" routerLinkActive="active">Panel admina</a>
     </nav>
     <div class="flex gap-3 align-middle">
-      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
+      <a matBadge="0" matBadgeSize="large" class="custom-badge mt-2 mr-2">
         <mat-icon>shopping_cart</mat-icon>
       </a>
-      <button mat-stroked-button>Zaloguj</button>
-      <button mat-stroked-button>Rejestracja</button>
+      <button mat-stroked-button routerLink="/login">Zaloguj</button>
+      <button mat-stroked-button routerLink="/register">Rejestracja</button>
     </div>
   </div>
 </header>

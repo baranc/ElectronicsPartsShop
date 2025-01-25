@@ -1,5 +1,6 @@
 using ElectronicsPartsShop.Server.Data;
 using ElectronicsPartsShop.Server.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -18,7 +19,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<ShopDbContext>() 
+.AddDefaultTokenProviders();
+
+
+/*builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+}).AddCookie(IdentityConstants.ApplicationScheme);*/
+
+/*builder.Services.AddIdentity<AppUser, IdentityRole>()
+            .AddEntityFrameworkStores<ShopDbContext>()
+            .AddDefaultTokenProviders();
+*/
+
 builder.Services.AddDirectoryBrowser();
+builder.Services.AddSingleton<System.TimeProvider>(System.TimeProvider.System);
+
 var app = builder.Build();
 app.UseCors();
 if (!app.Environment.IsDevelopment())
@@ -37,9 +64,39 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+try
+{
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    // Tworzenie ról
+    string[] roles = { "Admin", "User" };
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    // Tworzenie u¿ytkownika administratora (opcjonalnie)
+    var adminUser = await userManager.FindByNameAsync("admin");
+    if (adminUser == null)
+    {
+        var newAdmin = new AppUser { UserName = "admin", Email = "admin@example.com" };
+        await userManager.CreateAsync(newAdmin, "123456");
+        await userManager.AddToRoleAsync(newAdmin, "Admin");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"B³¹d podczas seedowania ról lub u¿ytkownika: {ex.Message}");
+}
 var dbContext = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
 if (!dbContext.Products.Any())
 {

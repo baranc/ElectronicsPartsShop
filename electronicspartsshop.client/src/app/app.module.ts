@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { ShopComponent } from './shop/shop.component';
 import { HeaderComponent } from './header/header.component';
 import { ProductItemComponent } from './product-item/product-item.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { CashRegisterComponent } from './cash-register/cash-register.component';
 
 @NgModule({
   imports: [
@@ -18,7 +21,10 @@ import { ProductItemComponent } from './product-item/product-item.component';
   declarations: [
     ShopComponent,
     HeaderComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    LoginComponent,
+    RegisterComponent,
+    CashRegisterComponent
   ]
 })
 export class AppModule { }

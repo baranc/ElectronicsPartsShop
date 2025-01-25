@@ -2,14 +2,13 @@
 using ElectronicsPartsShop.Server.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Core.Entities;
-
 namespace ElectronicsPartsShop.Server.Data
 {
     public class ShopDbContext : IdentityDbContext<AppUser>
     {
         public ShopDbContext(DbContextOptions<ShopDbContext> options) : base(options) { }
         public DbSet<Product> Products { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseItem> PurchaseItems { get; set; }
 

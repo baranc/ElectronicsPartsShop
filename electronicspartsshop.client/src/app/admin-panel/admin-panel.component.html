@@ -1,35 +1,86 @@
-<div class="admin-panel">
-  <h1>Panel administratora</h1>
-  <h2>Dodaj produkt</h2>
-  <form (ngSubmit)="addProduct()" #productForm="ngForm">
-    <label>
-      Nazwa:
-      <input [(ngModel)]="newProduct.name" name="name" placeholder="Name" required />
-    </label>
-    <label>
-      Opis:
-      <input [(ngModel)]="newProduct.description" name="description" placeholder="Description" required />
-    </label>
-    <label>
-      Cena:
-      <input type="number" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required />
-    </label>
-    <label>
-      Ścieżka zdjęcia:
-      <input [(ngModel)]="newProduct.imagePath" name="imagePath" placeholder="Image Path" required />
-    </label>
-    <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+<div class="admin-panel p-8 bg-gray-100">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Panel Administratora</h1>
+
+  <h2 class="text-2xl font-semibold mb-4 text-gray-700">Dodaj produkt</h2>
+  <form (ngSubmit)="addProduct()"
+        #productForm="ngForm"
+        class="space-y-4 bg-white p-6 rounded-lg shadow-md">
+    <div>
+      <label class="block text-gray-600 font-medium mb-1">Nazwa:</label>
+      <input [(ngModel)]="newProduct.name"
+             name="name"
+             placeholder="Name"
+             required
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <label class="block text-gray-600 font-medium mb-1">Opis:</label>
+      <input [(ngModel)]="newProduct.description"
+             name="description"
+             placeholder="Description"
+             required
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <label class="block text-gray-600 font-medium mb-1">Cena:</label>
+      <input type="number"
+             [(ngModel)]="newProduct.price"
+             name="price"
+             placeholder="Price"
+             required
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <label class="block text-gray-600 font-medium mb-1">Ścieżka zdjęcia:</label>
+      <input [(ngModel)]="newProduct.imagePath"
+             name="imagePath"
+             placeholder="Image Path"
+             required
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <button type="submit"
+            [disabled]="productForm.invalid"
+            class="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
+      Add Product
+    </button>
   </form>
 
-
-  <h2>Products</h2>
-  <div *ngFor="let product of products" class="product-item">
-    <p>{{ product.name }} - {{ product.price | currency:'PLN' }}</p>
-    <input [(ngModel)]="product.name" placeholder="Nazwa" />
-    <input [(ngModel)]="product.description" placeholder="Opis" />
-    <input type="number" [(ngModel)]="product.price" placeholder="Cena" />
-    <input [(ngModel)]="product.imagePath" placeholder="Ścieżka zdjęcia" />
-    <button (click)="updateProduct(product)">Edytuj</button>
-    <button (click)="deleteProduct(product.id)">Usuń</button>
+  <h2 class="text-2xl font-semibold mt-8 mb-4 text-gray-700">Produkty</h2>
+  <div *ngFor="let product of products"
+       class="product-item bg-white p-4 rounded-lg shadow-md mb-4 space-y-2">
+    <p class="text-lg font-medium text-gray-800">
+      {{ product.name }} - {{ product.price | currency: 'PLN' }}
+    </p>
+    <div>
+      <input [(ngModel)]="product.name"
+             placeholder="Nazwa"
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <input [(ngModel)]="product.description"
+             placeholder="Opis"
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <input type="number"
+             [(ngModel)]="product.price"
+             placeholder="Cena"
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div>
+      <input [(ngModel)]="product.imagePath"
+             placeholder="Ścieżka zdjęcia"
+             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <div class="flex space-x-4">
+      <button (click)="updateProduct(product)"
+              class="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-600 transition">
+        Edytuj
+      </button>
+      <button (click)="deleteProduct(product.id)"
+              class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 transition">
+        Usuń
+      </button>
+    </div>
   </div>
 </div>

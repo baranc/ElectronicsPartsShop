@@ -3,13 +3,15 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatBadge } from '@angular/material/badge';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-header',
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
-  imports: [MatIcon, MatButton, MatBadge, RouterOutlet, RouterModule]
+  imports: [MatIcon, MatButton, MatBadge, RouterOutlet, RouterModule, FormsModule]
 })
 export class HeaderComponent {
 
