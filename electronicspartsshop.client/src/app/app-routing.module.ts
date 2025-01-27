@@ -11,7 +11,7 @@ import { CashRegisterComponent } from './cash-register/cash-register.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: ShopComponent },
-  { path: 'admin', component: AdminPanelComponent },
+  { path: 'admin', component: AdminPanelComponent },//, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'cashRegister', component: CashRegisterComponent }];

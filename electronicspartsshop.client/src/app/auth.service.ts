@@ -6,16 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7054/api';
+  private apiUrl = 'https://localhost:7054/api/account';
   constructor(private http: HttpClient) { }
 
   getCurrentUser() {
-    const userJson = localStorage.getItem('currentUser');
+    const userJson = sessionStorage.getItem('currentUser');
     return userJson ? JSON.parse(userJson) : null;
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('currentUser');
+    return !!sessionStorage.getItem('currentUser');
   }
   getUserRoles(username: string | null): Observable<string[]> {
     return this.http.get<string[]>(`${this.apiUrl}/roles/${username}`);

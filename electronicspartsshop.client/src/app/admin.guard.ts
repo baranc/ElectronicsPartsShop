@@ -11,7 +11,7 @@ export class AdminGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): Observable<boolean> {
-    const userJson = localStorage.getItem('currentUser');
+    const userJson = sessionStorage.getItem('currentUser');
     return this.authService.getUserRoles(userJson).pipe(
       map((roles) => {
         if (roles.includes('Admin')) {

@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   imports: [FormsModule]
 })
 export class LoginComponent {
-  private apiUrl = 'https://localhost:7054/api/account';
+  private apiUrl = 'https://localhost:7054';
   username: string = '';
   password: string = '';
   roles: string[] = [];
@@ -18,26 +18,26 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   login() {
-    this.http.post(this.apiUrl + '/login', { username: this.username, password: this.password })
+    this.http.post(this.apiUrl + '/login', { email: this.username, password: this.password })
       .subscribe(response => {
         console.log('Logged in successfully', response);
         //this.authService.getUserRoles
-        localStorage.setItem('currentUser', JSON.stringify(this.username));
+        sessionStorage.setItem('currentUser', JSON.stringify(this.username));
         this.router.navigate(['home']);
       }, error => {
         console.log('Login failed', error);
       });
 
-    this.authService.getUserRoles(this.username).subscribe(
-      (roles: string[]) => {
-        this.roles = roles;
-        if (!roles.includes('Admin')) {
-          console.error('Access denied - Admins only');
-        }
-      },
-      (error) => {
-        console.error('Failed to fetch user roles:', error);
-      }
-    );
+    //this.http.get<string[]>(`${this.apiUrl}/roles/${this.username}`).subscribe(
+    //  (roles: string[]) => {
+    //    this.roles = roles;
+    //    if (!roles.includes('Admin')) {
+    //      console.error('Access denied - Admins only');
+    //    }
+    //  },
+    //  (error) => {
+    //    console.error('Failed to fetch user roles:', error);
+    //  }
+    //);
   }
 }

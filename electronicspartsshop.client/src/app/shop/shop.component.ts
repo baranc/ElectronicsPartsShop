@@ -37,7 +37,7 @@ export class ShopComponent implements OnInit {
   }
   goToPayment(): void {
     const totalAmount = this.getTotalPrice();
-    localStorage.setItem('totalAmount', totalAmount.toString());
+    sessionStorage.setItem('totalAmount', totalAmount.toString());
     this.router.navigate(['cashRegister']);
   }
 }

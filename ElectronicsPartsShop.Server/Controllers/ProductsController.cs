@@ -23,7 +23,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddProduct([FromBody] Product product)
         {
             _context.Products.Add(product);
@@ -32,7 +32,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateProduct(int id, [FromBody] Product updatedProduct)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
@@ -48,7 +48,7 @@ namespace ElectronicsPartsShop.Server
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteProduct(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);

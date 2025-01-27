@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc;
 
             var user = new AppUser { UserName = registerDto.Username };
             var result = await _userManager.CreateAsync(user, registerDto.Password);
+            var userRole = await _userManager.AddToRoleAsync(user, "User");
 
             if (result.Succeeded)
             {
@@ -56,22 +57,25 @@ using Microsoft.AspNetCore.Mvc;
             return Unauthorized();
         }
 
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
+
+    [HttpGet("roles/{username}")]
+    public async Task<IActionResult> GetUserRoles(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user == null)
         {
-            await _signInManager.SignOutAsync();
-            return Ok();
+            return NotFound($"User with username '{username}' not found.");
         }
 
-        [HttpGet("roles/{username}")]
-        public async Task<IActionResult> GetUserRoles(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            var roles = _userManager.GetRolesAsync(user);
-            if (roles == null)
-            {
-                return NotFound("User not found");
-            }
-            return Ok(roles);
-        }
+        var roles = await _userManager.GetRolesAsync(user);
+        return Ok(roles);
     }
+
+    [Authorize]
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return NoContent();
+    }
+}
