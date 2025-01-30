@@ -1,5 +1,4 @@
-﻿using ElectronicsPartsShop.Server.Extensions;
-using ElectronicsPartsShop.Server.Models;
+﻿using ElectronicsPartsShop.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

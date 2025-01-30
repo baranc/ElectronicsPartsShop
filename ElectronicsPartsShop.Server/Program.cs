@@ -91,13 +91,12 @@ catch (Exception ex)
 try
 {
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    var adminUser = await userManager.FindByNameAsync("admin8@a.pl");
+    var adminUser = await userManager.FindByNameAsync("admin9@a.pl");
     if (adminUser == null)
     {
         var newAdmin = new AppUser
         {
-            UserName = "admin8@a.pl",
-            Email = "admin8@a.pl",
+            Email = "admin9@a.pl",
             EmailConfirmed = true 
         };
 

@@ -16,11 +16,6 @@
     
     <div class="flex items-center gap-4">
       
-      <a routerLink="cart" matBadge="" matBadgeSize="large" class="relative">
-        <mat-icon class="text-3xl">shopping_cart</mat-icon>
-      </a>
-
-      
       <button *ngIf="isLoggedIn()" mat-stroked-button class="px-4 py-2" (click)="logout()">Wyloguj</button>
 
       
