@@ -9,7 +9,7 @@
 
       <nav class="hidden lg:flex gap-6 uppercase text-xl">
         <a routerLink="home" routerLinkActive="active" class="hover:text-gray-700 transition">Strona główna</a>
-        <a routerLink="admin" routerLinkActive="active" class="hover:text-gray-700 transition">Panel admina</a>
+        
       </nav>
     </div>
 
@@ -30,12 +30,9 @@
   <div *ngIf="isMobileMenuOpen" class="lg:hidden bg-white border-t p-4">
     <nav class="flex flex-col gap-3 uppercase text-lg">
       <a routerLink="home" routerLinkActive="active" class="hover:text-gray-700 transition">Strona główna</a>
-      <a routerLink="admin" routerLinkActive="active" class="hover:text-gray-700 transition">Panel admina</a>
-
       
       <button *ngIf="isLoggedIn()" mat-stroked-button class="w-full" (click)="logout()">Wyloguj</button>
 
-      
       <ng-container *ngIf="!isLoggedIn()">
         <button routerLink="login" mat-stroked-button class="w-full">Loguj</button>
         <button routerLink="register" mat-stroked-button class="w-full">Zarejestruj</button>

@@ -19,7 +19,7 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private accountService: AccountService) { }
 
   login() {
-    this.accountService.login({ email: this.username, password: this.password })
+    this.accountService.login({ username: this.username, password: this.password })
       .subscribe(next => {
         console.log('Logged in successfully');
         this.accountService.getUserInfo().subscribe();

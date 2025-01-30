@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatBadge } from '@angular/material/badge';
@@ -6,6 +6,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/accountService';
 import { CommonModule } from '@angular/common';
+
 
 
 @Component({
@@ -24,9 +25,7 @@ export class HeaderComponent {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  isLoggedIn(): boolean {
-    return !!this.accountService.currentUser();
-  }
+  isLoggedIn = computed(() => !!this.accountService.currentUser())
 
   logout() {
     this.accountService.logout().subscribe({

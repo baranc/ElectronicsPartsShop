@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../product.service';
-import { ProductItemComponent } from '../product-item/product-item.component';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css'],
-  imports: [CurrencyPipe, CommonModule, ProductItemComponent, RouterLink]
+  imports: [CurrencyPipe, CommonModule, RouterLink]
 })
 export class ShopComponent implements OnInit {
   products: Product[] = [];

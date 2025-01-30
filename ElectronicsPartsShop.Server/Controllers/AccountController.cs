@@ -58,4 +58,23 @@ using System.Security.Claims;
             Roles = User.FindFirstValue(ClaimTypes.Role)
         });
     }
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login([FromBody] RegisterDto registerDto)
+    {
+        if (string.IsNullOrWhiteSpace(registerDto.Password) || string.IsNullOrWhiteSpace(registerDto.Username))
+        {
+            return BadRequest("Username and password are required.");
+        }
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == registerDto.Username);
+        if (user != null)
+        {
+            var result = await _signInManager.PasswordSignInAsync(user, registerDto.Password, isPersistent: false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+        }
+        return Unauthorized();
+    }
 }

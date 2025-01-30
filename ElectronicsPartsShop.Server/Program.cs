@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -32,7 +33,11 @@ builder.Services.AddDirectoryBrowser();
 builder.Services.AddSingleton<System.TimeProvider>(System.TimeProvider.System);
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<AppUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ShopDbContext>();
-builder.Services.ConfigureApplicationCookie(options => { options.Cookie.SameSite = SameSiteMode.None; });
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
+});
+builder.Services.ConfigureApplicationCookie(options => { options.Cookie.SameSite = SameSiteMode.Strict; });
 var app = builder.Build();
 app.MapIdentityApi<AppUser>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
@@ -123,6 +128,30 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"B³¹d podczas tworzenia u¿ytkownika lub przypisywania roli: {ex.Message}");
+}
+using (var scope2 = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string adminEmail = "admin@shop.com";
+    string adminPassword = "Admin123!";
+
+    if (await roleManager.FindByNameAsync("Admin") == null)
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var adminUser = new AppUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
 }
 
 var dbContext = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
