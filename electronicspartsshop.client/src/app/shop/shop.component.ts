@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ShopComponent implements OnInit {
   products: Product[] = [];
-  cart: Product[] = []; // Koszyk zakupowy
+  cart: Product[] = [];
 
   constructor(private productService: ProductService, private http: HttpClient, private router: Router) { }
 
@@ -38,6 +38,23 @@ export class ShopComponent implements OnInit {
   goToPayment(): void {
     const totalAmount = this.getTotalPrice();
     sessionStorage.setItem('totalAmount', totalAmount.toString());
-    this.router.navigate(['cashRegister']);
+
+    const cartItems = this.cart.map(product => ({
+      productId: product.id,
+      quantity: 1 
+    }));
+    
+    this.http.post('https://localhost:7054/api/cart/checkout', cartItems, { withCredentials: true })
+      .subscribe(
+        response => {
+          console.log('Purchase successful', response);
+          this.cart = [];
+          this.router.navigate(['checkout']);
+        },
+        error => {
+          console.log('Error during checkout', error);
+        }
+      );
   }
+
 }

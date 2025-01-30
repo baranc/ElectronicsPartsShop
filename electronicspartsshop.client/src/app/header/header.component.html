@@ -1,12 +1,50 @@
-<header class="border-b shadow-md p-3 w-full max-h-20 fixed top-0 z-50 bg-white">
-  <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto">
-    <nav class="flex gap-3 my-2 uppercase text-2xl">
-      <a routerLink="/" routerLinkActive="active">Strona główna</a>
-      <a routerLink="/admin" routerLinkActive="active">Panel admina</a>
-    </nav>
-    <div class="flex gap-3 align-middle">
-      <button mat-stroked-button routerLink="/login">Zaloguj</button>
-      <button mat-stroked-button routerLink="/register">Rejestracja</button>
+<header class="border-b shadow-md p-3 w-full fixed top-0 z-50 bg-white">
+  <div class="flex items-center justify-between max-w-screen-2xl mx-auto px-4 lg:px-8">
+
+    
+    <div class="flex items-center">
+      <button class="lg:hidden text-3xl mr-4" (click)="toggleMobileMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <nav class="hidden lg:flex gap-6 uppercase text-xl">
+        <a routerLink="home" routerLinkActive="active" class="hover:text-gray-700 transition">Strona główna</a>
+        <a routerLink="admin" routerLinkActive="active" class="hover:text-gray-700 transition">Panel admina</a>
+      </nav>
     </div>
+
+    
+    <div class="flex items-center gap-4">
+      
+      <a routerLink="cart" matBadge="" matBadgeSize="large" class="relative">
+        <mat-icon class="text-3xl">shopping_cart</mat-icon>
+      </a>
+
+      
+      <button *ngIf="isLoggedIn()" mat-stroked-button class="px-4 py-2" (click)="logout()">Wyloguj</button>
+
+      
+      <ng-container *ngIf="!isLoggedIn()">
+        <button routerLink="login" mat-stroked-button class="px-4 py-2">Loguj</button>
+        <button routerLink="register" mat-stroked-button class="px-4 py-2">Zarejestruj</button>
+      </ng-container>
+    </div>
+  </div>
+
+  
+  <div *ngIf="isMobileMenuOpen" class="lg:hidden bg-white border-t p-4">
+    <nav class="flex flex-col gap-3 uppercase text-lg">
+      <a routerLink="home" routerLinkActive="active" class="hover:text-gray-700 transition">Strona główna</a>
+      <a routerLink="admin" routerLinkActive="active" class="hover:text-gray-700 transition">Panel admina</a>
+
+      
+      <button *ngIf="isLoggedIn()" mat-stroked-button class="w-full" (click)="logout()">Wyloguj</button>
+
+      
+      <ng-container *ngIf="!isLoggedIn()">
+        <button routerLink="login" mat-stroked-button class="w-full">Loguj</button>
+        <button routerLink="register" mat-stroked-button class="w-full">Zarejestruj</button>
+      </ng-container>
+    </nav>
   </div>
 </header>

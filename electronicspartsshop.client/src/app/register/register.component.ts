@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../environment.development';
 
 @Component({
   selector: 'app-register',
@@ -9,14 +10,14 @@ import { Router } from '@angular/router';
   imports: [FormsModule]
 })
 export class RegisterComponent {
-  private apiUrl = 'https://localhost:7054/api/account';
+  private apiUrl = environment.apiUrl;
   username: string = '';
   password: string = '';
 
   constructor(private http: HttpClient, private router: Router) { }
 
   register() {
-    this.http.post(this.apiUrl + '/register', { username: this.username, password: this.password })
+    this.http.post(this.apiUrl + 'register', { email: this.username, password: this.password })
       .subscribe(response => {
         console.log('Registered successfully', response);
         this.router.navigate(['login']);

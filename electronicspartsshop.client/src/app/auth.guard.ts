@@ -19,13 +19,12 @@ export class AuthGuard implements CanActivate {
     try {
       const roles = await this.http.get<string[]>(link).toPromise();
       if (roles && roles.includes('Admin')) {
-        return true; // Zwróć true, jeśli użytkownik ma rolę Admin
+        return true; 
       }
     } catch (error) {
       console.error('Error fetching roles:', error);
     }
 
-    // Jeśli rola "Admin" nie istnieje lub wystąpił błąd
     this.router.navigate(['/login']);
     return false;
 

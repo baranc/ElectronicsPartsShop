@@ -3,6 +3,7 @@ using ElectronicsPartsShop.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -19,35 +20,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-//builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-//{
-//    options.Password.RequireDigit = false;
-//    options.Password.RequireLowercase = false;
-//    options.Password.RequireUppercase = false;
-//    options.Password.RequireNonAlphanumeric = false;
-//    options.Password.RequiredLength = 6;
-//})
-//.AddEntityFrameworkStores<ShopDbContext>() 
-//.AddDefaultTokenProviders();
 
-
-/*builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication();
+builder.Services.AddLogging(logging =>
 {
-    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
-}).AddCookie(IdentityConstants.ApplicationScheme);*/
-
-/*builder.Services.AddIdentity<AppUser, IdentityRole>()
-            .AddEntityFrameworkStores<ShopDbContext>()
-            .AddDefaultTokenProviders();
-*/
+    logging.AddConsole();
+    logging.AddDebug();
+});
 
 builder.Services.AddDirectoryBrowser();
 builder.Services.AddSingleton<System.TimeProvider>(System.TimeProvider.System);
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<AppUser>()
-    .AddEntityFrameworkStores<ShopDbContext>();
+builder.Services.AddIdentityApiEndpoints<AppUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ShopDbContext>();
+builder.Services.ConfigureApplicationCookie(options => { options.Cookie.SameSite = SameSiteMode.None; });
 var app = builder.Build();
 app.MapIdentityApi<AppUser>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
@@ -77,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-        c.RoutePrefix = string.Empty; // Pozwala na dostêp do Swaggera pod "/" zamiast "/swagger"
+        c.RoutePrefix = string.Empty; 
     });
 }
 
@@ -88,7 +73,6 @@ try
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
-    // Tworzenie ról
     string[] roles = { "Admin", "User" };
     foreach (var role in roles)
     {
@@ -98,19 +82,50 @@ try
         }
     }
 
-    // Tworzenie u¿ytkownika administratora (opcjonalnie)
-    var adminUser = await userManager.FindByNameAsync("admin");
-    if (adminUser == null)
-    {
-        var newAdmin = new AppUser { UserName = "admin", Email = "admin@example.com" };
-        await userManager.CreateAsync(newAdmin, "123456");
-        await userManager.AddToRoleAsync(newAdmin, "Admin");
-    }
+    
 }
 catch (Exception ex)
 {
     Console.WriteLine($"B³¹d podczas seedowania ról lub u¿ytkownika: {ex.Message}");
 }
+try
+{
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var adminUser = await userManager.FindByNameAsync("admin8@a.pl");
+    if (adminUser == null)
+    {
+        var newAdmin = new AppUser
+        {
+            UserName = "admin8@a.pl",
+            Email = "admin8@a.pl",
+            EmailConfirmed = true 
+        };
+
+        var createResult = await userManager.CreateAsync(newAdmin, "A1!aaa");
+
+        if (createResult.Succeeded)
+        {
+            var roleResult = await userManager.AddToRoleAsync(newAdmin, "Admin");
+            if (!roleResult.Succeeded)
+            {
+                throw new Exception($"Nie uda³o siê przypisaæ roli: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+            }
+        }
+        else
+        {
+            throw new Exception($"Nie uda³o siê utworzyæ u¿ytkownika: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+        }
+    }
+    else
+    {
+        Console.WriteLine("U¿ytkownik ju¿ istnieje.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"B³¹d podczas tworzenia u¿ytkownika lub przypisywania roli: {ex.Message}");
+}
+
 var dbContext = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
 if (!dbContext.Products.Any())
 {

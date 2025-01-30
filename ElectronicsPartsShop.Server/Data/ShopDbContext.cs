@@ -16,21 +16,18 @@ namespace ElectronicsPartsShop.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Konfiguracja relacji między Purchase a IdentityUser
             modelBuilder.Entity<Purchase>()
                 .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Konfiguracja relacji między Purchase a PurchaseItem
             modelBuilder.Entity<Purchase>()
                 .HasMany(p => p.Items)
                 .WithOne(pi => pi.Purchase)
                 .HasForeignKey(pi => pi.PurchaseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Konfiguracja relacji między PurchaseItem a Product
             modelBuilder.Entity<PurchaseItem>()
                 .HasOne(pi => pi.Product)
                 .WithMany()
