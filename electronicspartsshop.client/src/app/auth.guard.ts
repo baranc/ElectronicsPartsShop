@@ -12,9 +12,8 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) { }
 
   async canActivate(): Promise<boolean> {
-    const userJson = sessionStorage.getItem('currentUser');
-    var username = userJson ? JSON.parse(userJson) : null;
-    const link = `${this.apiUrl}/roles/${username}`;
+    const user = this.authService.getCurrentUser();
+    const link = `${this.apiUrl}/roles/${user}`;
     var promiseRoles = this.http.get<string[]>(link);
     try {
       const roles = await this.http.get<string[]>(link).toPromise();

@@ -22,10 +22,12 @@ export class LoginComponent {
     this.accountService.login({ username: this.username, password: this.password })
       .subscribe(next => {
         console.log('Logged in successfully');
-        this.accountService.getUserInfo().subscribe();
+        sessionStorage.setItem('currentUser', JSON.stringify(this.username));
+        this.accountService.getUserInfo().subscribe;
         this.router.navigate(['home']);
       }, error => {
         console.log('Login failed', error);
       });
+
   }
 }

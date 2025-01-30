@@ -36,6 +36,7 @@ export class AccountService {
   }
 
   logout() {
+    sessionStorage.setItem('currentUser', '');
     return this.http.get(this.baseUrl + 'api/account/logout',{ withCredentials:true })
   }
 
