@@ -71,65 +71,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-try
-{
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
-    string[] roles = { "Admin", "User" };
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-
-    
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"B³¹d podczas seedowania ról lub u¿ytkownika: {ex.Message}");
-}
-try
-{
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    var adminUser = await userManager.FindByNameAsync("admin9@a.pl");
-    if (adminUser == null)
-    {
-        var newAdmin = new AppUser
-        {
-            Email = "admin9@a.pl",
-            EmailConfirmed = true 
-        };
-
-        var createResult = await userManager.CreateAsync(newAdmin, "A1!aaa");
-
-        if (createResult.Succeeded)
-        {
-            var roleResult = await userManager.AddToRoleAsync(newAdmin, "Admin");
-            if (!roleResult.Succeeded)
-            {
-                throw new Exception($"Nie uda³o siê przypisaæ roli: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
-            }
-        }
-        else
-        {
-            throw new Exception($"Nie uda³o siê utworzyæ u¿ytkownika: {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
-        }
-    }
-    else
-    {
-        Console.WriteLine("U¿ytkownik ju¿ istnieje.");
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"B³¹d podczas tworzenia u¿ytkownika lub przypisywania roli: {ex.Message}");
-}
-using (var scope2 = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -154,13 +97,4 @@ using (var scope2 = app.Services.CreateScope())
     }
 }
 
-var dbContext = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
-if (!dbContext.Products.Any())
-{
-    dbContext.Products.AddRange(
-        new Product { Name = "Product 1", Description = "Description 1", Price = 19.99M, ImagePath = "img/098_01.jpg" },
-        new Product { Name = "Product 2", Description = "Description 2", Price = 29.99M, ImagePath = "D:\\informatyka - studia\\semestr_5\\Technologie webowe\\Projekt\\ElectronicsPartsShop\\electronicspartsshop.client\\img\\098_01.jpg" }
-    );
-    dbContext.SaveChanges();
-}
 app.Run();
