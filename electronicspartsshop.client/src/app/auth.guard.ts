@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  private apiUrl = environment.apiUrl + 'api/account/';
+  private apiUrl = environment.apiUrl + 'api/account';
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) { }
 
