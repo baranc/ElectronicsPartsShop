@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../product.service';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-shop',
@@ -42,8 +43,8 @@ export class ShopComponent implements OnInit {
       productId: product.id,
       quantity: 1 
     }));
-    
-    this.http.post('https://localhost:7054/api/cart/checkout', cartItems, { withCredentials: true })
+
+    this.http.post(environment.apiUrl + 'api/cart/checkout', cartItems, { withCredentials: true })
       .subscribe(
         response => {
           console.log('Purchase successful', response);

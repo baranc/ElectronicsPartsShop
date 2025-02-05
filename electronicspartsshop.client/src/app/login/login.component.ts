@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { AccountService } from '../services/accountService';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AccountService } from '../services/accountService';
   imports: [FormsModule]
 })
 export class LoginComponent {
-  private apiUrl = 'https://localhost:7054';
+  private apiUrl = environment.apiUrl;
   username: string = '';
   password: string = '';
   roles: string[] = [];
