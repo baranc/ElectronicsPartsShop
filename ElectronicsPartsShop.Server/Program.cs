@@ -49,12 +49,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-            Path.Combine(builder.Environment.ContentRootPath, "wwwroot2")),
-    RequestPath = "/wwwroot2"
-});
 app.UseRouting();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
